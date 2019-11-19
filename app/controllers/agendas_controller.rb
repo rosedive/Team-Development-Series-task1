@@ -21,6 +21,19 @@ class AgendasController < ApplicationController
     end
   end
 
+  def destroy
+    if current_user.id==@agenda.user_id
+  @agenda.destroy
+  ContactMailer.contact_mail(@agenda).deliver
+  redirect_to dashboard_url, notice: "agenda deleted "
+    else
+      redirect_to dashboard_url, notice: "you can't delete other owner's agenda"
+    end
+  end
+  [4:10 PM]
+  <%= link_to 'Delete', agenda, method: :delete, data: { confirm: 'Are you sure?'}, class:"btn btn-danger" %>
+end
+end
   private
 
   def set_agenda
